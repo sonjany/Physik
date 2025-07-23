@@ -1,30 +1,33 @@
 from physik.phy import Physik
+from astrophysik import konstanten as k
+from astrophysik import formeln as f
 
 class AstroPhysik(Physik):
-    def __init__(self, masse=5.7e26, weg=0, zeit=1):
+    def __init__(self, masse, weg, zeit):
         super().__init__(masse, weg, zeit)
-        self.planet_masse = masse
+        self.planet_masse_a = masse
+        self.weg = weg
+        self.zeit = zeit
+        self.G = k.G
 
     def lichtjahr_skm(self):  # s/km
-        sly = self.LY / 1000
-        sc = self.C
-        skm = sly / sc
-        print(f"Licht braucht {skm:.2e} s für 1 Lichtjahr")
+        skm = f.berechne_lichtjahr_skm()
+        print(f"Licht braucht {skm} s für 1 Lichtjahr")
 
     def lichtjahr_pc(self):  # LY in PC
-        ri_m = self.RIGEL * self.LY
-        pc = ri_m / self.PC
-        print(f"Rigel ist {pc:.2f} Parsec von der Erde entfernt")
+        pc = f.berechne_lichtjahr_pc()
+        print(f"Rigel ist {pc} Parsec von der Erde entfernt")
 
     def lichtjahr_km(self):  # km
-        ri_km = self.RIGEL * self.LY / 1000
-        print(f"Rigel ist {ri_km:.2e} km von der Erde entfernt")
+        ri_km = f.berechne_lichtjahr_km()
+        print(f"Rigel ist {ri_km} km von der Erde entfernt")
 
     def spass_mit_saturn(self):  # N
-        if self.planet_masse < self.SATURN:
+        quatsch = f.quatsch_spass_mit_saturn(self.masse)
+        if quatsch == "mini":
             print("Kleines Planetchen")
-        elif self.planet_masse > self.SATURN:
+        elif quatsch == "größer":
             print("Grooooßer Gasbrocken")
         else:
-            result = self.SATURN * self.G
-            print(f"Jetzt bist du mit {result:.2e} N auf die Erde gefallen")
+            print(f"Mist! du bist mit {quatsch} N auf die Erde gefallen")
+
